@@ -1,5 +1,5 @@
 'use strict'
-const udapCommon = require('udap-common')
+const udapCommon = require('hl7-fhir-udap-common')
 const fs = require('fs')
 const axios = require('axios')
 const querystring = require('querystring')
