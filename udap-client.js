@@ -40,20 +40,20 @@ class udapClient {
     san: subject alternative name  
     */
     async udapDynamicClientRegistration(registrationConfiguration) {
-        console.log("Looking up additional server info from:" + this.udapWellknownUrl)
+        console.debug("Looking up additional server info from:" + this.udapWellknownUrl)
         try {
             await this.getAndValidateUdapMetadata(this.udapWellknownUrl)
             var registerUrl = this.signedMetadata.registration_endpoint
             //Make sure to use algorithim the server supports
             var signingAlg = this.udapWellKnownMetadata.registration_endpoint_jwt_signing_alg_values_supported[0]
             var signedJwt = this.createUdapSignedSoftwareStatement(registerUrl, registrationConfiguration,signingAlg)
-            console.log(signedJwt)
+            console.debug(signedJwt)
             var softwareStatement = {
                 "software_statement": signedJwt,
                 "udap": "1"
             }
             var dcrResponse = await this.postUdapRequest(softwareStatement, registerUrl,'application/json')
-            console.log(dcrResponse)
+            console.debug(dcrResponse)
             return dcrResponse
         }
         catch (e) {
@@ -114,8 +114,8 @@ class udapClient {
             }
             //var tokenResponse = await UdapClient.postUdapSignedJwt(tokenRequest,tokenUrl)
             //We can put this back into a method later- this needs to be NOT JSON- but url encoded.
-            console.log("Ready to get token from the authz server at endpoint: " + tokenUrl)
-            console.log(querystring.stringify(tokenRequest))
+            console.debug("Ready to get token from the authz server at endpoint: " + tokenUrl)
+            console.debug(querystring.stringify(tokenRequest))
             try {
                 const tokenResponse = await this.postUdapRequest(tokenRequest,tokenUrl,'application/x-www-form-urlencoded')
                 return tokenResponse
@@ -149,11 +149,11 @@ class udapClient {
                 'udap': 1
             }
             //We can put this back into a method later- this needs to be NOT JSON- but url encoded.
-            console.log("Ready to get token from the authz server at endpoint: " + tokenUrl)
-            console.log(querystring.stringify(tokenRequest))
+            console.debug("Ready to get token from the authz server at endpoint: " + tokenUrl)
+            console.debug(querystring.stringify(tokenRequest))
             try {
                 const tokenResponse = await this.postUdapRequest(tokenRequest,tokenUrl,'application/x-www-form-urlencoded')
-                console.log(tokenResponse)
+                console.debug(tokenResponse)
                 return tokenResponse
             }
             catch (e) {
@@ -182,8 +182,8 @@ class udapClient {
                     'method': 'get',
                     'headers': { 'Content-Type': 'application/fhir+json' },
                 })
-                console.log("Return from meta")
-                console.log(udapMetaResponse)
+                console.debug("Return from meta")
+                console.debug(udapMetaResponse)
                 if (udapMetaResponse.status == 200) {
                     var udapWellKnownResponse = udapMetaResponse.data
                     await this.validateUdapWellKnown(udapWellKnownResponse)
@@ -293,7 +293,7 @@ class udapClient {
         var now = new Date()
         var oneYearForward = new Date()
         oneYearForward.setFullYear(oneYearForward.getFullYear() + 1)
-        console.log("IAT: " + (verifiedJwt.iat * 1000) + " Exp: " + (verifiedJwt.exp * 1000) + " Current Date: " + now.getTime() + " 1 year Forward: " + oneYearForward.getTime())
+        console.debug("IAT: " + (verifiedJwt.iat * 1000) + " Exp: " + (verifiedJwt.exp * 1000) + " Current Date: " + now.getTime() + " 1 year Forward: " + oneYearForward.getTime())
         if (!verifiedJwt.hasOwnProperty('iat') || verifiedJwt.iat == "" || (verifiedJwt.iat * 1000) >= now.getTime()) {
             errorMessages.push("Missing or invalid sub parameter in signed_metadata.")
         }
@@ -342,8 +342,8 @@ class udapClient {
                 logo_uri: registrationClaims.logo_uri,
                 scope: registrationClaims.scope
             }
-            console.log("Claims for software statement:")
-            console.log(claims)
+            console.debug("Claims for software statement:")
+            console.debug(claims)
             var token = udapCommon.generateUdapSignedJwt(claims, this.communityKeypair,signingAlg)
             return token
         }
