@@ -34,6 +34,9 @@ To see example code, you can browse the [hl7-fhir-udap-client-ui](https://github
 
 The repositories are currently set up for local installation. Placing all four repositories under the same parent folder will allow the package.json local file references to be resolved accurately. This repository will eventually be an npm package.
 
+## Known Issues
+- Currently assumes server side support for Tiered OAuth.  Check will be added in the future.
+
 ## Getting Help
 
 If you have questions, concerns, bug reports, etc.,  file an issue in this repository's Issue Tracker.
