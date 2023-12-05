@@ -1,5 +1,9 @@
 # hl7-fhir-udap-client
 
+## Getting Started
+
+For a general overview of UDAP as well as a getting starting guide of the full four-repository collection see [UDAP Documentation](https://github.com/Evernorth/hl7-fhir-udap-docs#readme)
+
 ## Overview
 
 This nodejs library is part of a four-repository collection for a full [UDAP](https://www.udap.org/) implementation. The implementation adheres to published Version 1.0 of the [HL7 UDAP Security Implementation Guide](http://hl7.org/fhir/us/udap-security/STU1/). This library implements a udapClient class. The constructor takes in the following attributes:
@@ -36,7 +40,7 @@ If you have questions, concerns, bug reports, etc.,  file an issue in this repos
 
 ## Getting Involved
 
-See the [CONTRIBUTING.md](CONTRIBUTING.md) file for info on how to get involved.
+See the [CONTRIBUTING](CONTRIBUTING.md) file for info on how to get involved.
 
 ## License
 
