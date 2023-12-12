@@ -51,6 +51,6 @@ The hl7-fhir-udap-client is Open Source Software released under the [Apache 2.0 
 
 ## Original Contributors
 
-The hl7-fhir-udap-client was originally developed as a collaborative effort between [Evernorth](https://www.evernorth.com/) and [OKTA](https://www.okta.com/). We would like to recognize the following people for their initial contributions to the project: 
+We would like to recognize the following people for their initial contributions to the project: 
  - Tom Loomis, Evernorth
  - Dan Cinnamon, OKTA
