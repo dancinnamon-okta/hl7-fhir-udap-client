@@ -23,7 +23,7 @@ The client class has methods to handle UDAP Trusted Dynamic Client Registration,
 
 Links to the other repositories in the collection:
 - [hl7-fhir-udap-common](https://github.com/Evernorth/hl7-fhir-udap-common#readme)
-- [hl7-fhir-udap-test-client-ui](https://github.com/Evernorth/hl7-fhir-udap-test-client-ui#readme)
+- [hl7-fhir-udap-client-test-ui](https://github.com/Evernorth/hl7-fhir-udap-client-test-ui#readme)
 - [hl7-fhir-udap-server](https://github.com/Evernorth/hl7-fhir-udap-server#readme)
 
 ## Usage
