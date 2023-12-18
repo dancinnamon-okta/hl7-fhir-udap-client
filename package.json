@@ -1,0 +1,26 @@
+{
+  "name": "hl7-fhir-udap-client",
+  "version": "1.0.0",
+  "description": "node.js UDAP client functionality",
+  "main": "udap-client.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Evernorth/Okta",
+  "license": "Apache-2.0",
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/Evernorth/hl7-fhir-udap-client/issues"
+  },
+  "homepage": "https://github.com/Evernorth/hl7-fhir-udap-client#readme",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "hl7-fhir-udap-common": "file:../hl7-fhir-udap-common",
+    "uuid": "^9.0.0"
+  }
+}
