@@ -1,6 +1,5 @@
 'use strict'
 const udapCommon = require('hl7-fhir-udap-common')
-const fs = require('fs')
 const axios = require('axios')
 const querystring = require('querystring')
 const { v4: uuidv4 } = require('uuid')
@@ -23,6 +22,35 @@ class udapClient {
         this.purposeOfUse = purposeOfUse
         this.udapWellKnownMetadata = null
         this.signedMetadata = null
+
+        //For testing with the aegis touchstone proxy only- never for any production use.
+        //Purposely making this a little obtuse since using it will cause all secure traffic to be redirected to a central location for testing.
+        this.touchstoneConfig = null
+        /*
+        this.touchstoneConfig = {
+            "udap1.your.tld" : [
+                {
+                    "BASE_URL":"https://udap1.your.tld/udap/fhir",
+                    "ORG_KEY": "ORG_KEY",
+                    "USER_KEY": "USER_KEY",
+                    "PORT": "TOUCHSTONE_PORT"
+                }
+            ],
+            "udap.someone.elses.tld" : [
+                {
+                    "BASE_URL":"https://udap.someone.elses.tld/path1",
+                    "ORG_KEY": "",
+                    "USER_KEY": "",
+                    "PORT": ""
+                },
+                {
+                    "BASE_URL":"https://udap.someone.elses.tld/path2",
+                    "ORG_KEY": "",
+                    "USER_KEY": "",
+                    "PORT": ""
+                }
+            ]
+        } */
     }
     //Full Client UDAP Trusted Dynamic Client Registration Flow
     // 1. Check for support in metadata
@@ -175,12 +203,36 @@ class udapClient {
     //Validates .wellknown-udap and signed_metadata version STU 1 of HL7 security guide:
     // http://hl7.org/fhir/us/udap-security/STU1/
     async getAndValidateUdapMetadata(url) {
+
+        var requestUrl = url
+        var requestHeaders = { 'Content-Type': 'application/fhir+json' }
+
+        //If touchstone info was provided, use it as a proxy- otherwise leave everything alone.
+        if(this.touchstoneConfig) {
+            const touchstoneConfigUtil = require('./touchstone-config')
+            const matchedConfig = touchstoneConfigUtil.getMatchingTouchstoneTestServer(url, this.touchstoneConfig)
+
+            if(matchedConfig) {
+                console.log("Touchstone config found!! Forwarding request through the provided touchstone proxy.")
+                const parsedUrl = new URL(url)
+
+                parsedUrl.hostname = 'touchstone.aegis.net'
+                parsedUrl.port = matchedConfig.PORT
+
+                requestUrl = parsedUrl.toString()
+                requestHeaders = { 'Content-Type': 'application/fhir+json', 'USER_KEY': matchedConfig.USER_KEY, 'ORG_KEY': matchedConfig.ORG_KEY}
+            }
+            else {
+                console.log('Request did not match any touchstone configs- not sending request to touchstone...')
+            }
+        }
+
         if (this.signedMetadata == null) {
             try {
                 const udapMetaResponse = await axios.request({
-                    'url': url,
+                    'url': requestUrl,
                     'method': 'get',
-                    'headers': { 'Content-Type': 'application/fhir+json' },
+                    'headers': requestHeaders,
                 })
                 console.debug("Return from meta")
                 console.debug(udapMetaResponse)
@@ -197,13 +249,37 @@ class udapClient {
         }
     }
 
-    async postUdapRequest(request, postUrl,contentType) {
+    async postUdapRequest(request, postUrl, contentType) {
+        var requestUrl = postUrl
+        var requestHeaders = { 'Content-Type': contentType }
+
+        //If touchstone info was provided, use it as a proxy- otherwise leave everything alone.
+        if(this.touchstoneConfig) {
+            const touchstoneConfigUtil = require('./touchstone-config')
+            const matchedConfig = touchstoneConfigUtil.getMatchingTouchstoneTestServer(postUrl, this.touchstoneConfig)
+
+            if(matchedConfig) {
+                console.log("Touchstone config found!! Forwarding request through the provided touchstone proxy.")
+                const parsedUrl = new URL(postUrl)
+
+                parsedUrl.hostname = 'touchstone.aegis.net'
+                parsedUrl.port = matchedConfig.PORT
+
+                requestUrl = parsedUrl.toString()
+                requestHeaders = { 'Content-Type': contentType, 'USER_KEY': matchedConfig.USER_KEY, 'ORG_KEY': matchedConfig.ORG_KEY}
+            }
+            else {
+                console.log('Request did not match any touchstone configs- not sending request to touchstone...')
+            }
+        }
+
         const postResponse = await axios.request({
-            'url': postUrl,
+            'url': requestUrl,
             'method': 'post',
-            'headers': { 'Content-Type': contentType },
+            'headers': requestHeaders,
             'data': request
         })
+
         return postResponse
     }
 
