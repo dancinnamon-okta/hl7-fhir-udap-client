@@ -1,0 +1,24 @@
+{
+    "hostname1.your.tld" : [
+        {
+            "BASE_URL":"https://hostname1.your.tld/authz",
+            "ORG_KEY": "XX",
+            "USER_KEY": "XX",
+            "PORT": "1234"
+        }
+    ],
+    "hostname2.your.tld" : [
+        {
+            "BASE_URL":"https://hostname2.your.tld/authz1",
+            "ORG_KEY": "XX",
+            "USER_KEY": "XX",
+            "PORT": "5678"
+        },
+        {
+            "BASE_URL":"https://hostname2.your.tld/authz2",
+            "ORG_KEY": "XX",
+            "USER_KEY": "XX",
+            "PORT": "9012"
+        }
+    ]
+}

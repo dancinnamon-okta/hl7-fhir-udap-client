@@ -25,32 +25,8 @@ class udapClient {
 
         //For testing with the aegis touchstone proxy only- never for any production use.
         //Purposely making this a little obtuse since using it will cause all secure traffic to be redirected to a central location for testing.
+        //See touchstone-config.json.example for the format of this object.
         this.touchstoneConfig = null
-        /*
-        this.touchstoneConfig = {
-            "udap1.your.tld" : [
-                {
-                    "BASE_URL":"https://udap1.your.tld/udap/fhir",
-                    "ORG_KEY": "ORG_KEY",
-                    "USER_KEY": "USER_KEY",
-                    "PORT": "TOUCHSTONE_PORT"
-                }
-            ],
-            "udap.someone.elses.tld" : [
-                {
-                    "BASE_URL":"https://udap.someone.elses.tld/path1",
-                    "ORG_KEY": "",
-                    "USER_KEY": "",
-                    "PORT": ""
-                },
-                {
-                    "BASE_URL":"https://udap.someone.elses.tld/path2",
-                    "ORG_KEY": "",
-                    "USER_KEY": "",
-                    "PORT": ""
-                }
-            ]
-        } */
     }
     //Full Client UDAP Trusted Dynamic Client Registration Flow
     // 1. Check for support in metadata
