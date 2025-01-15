@@ -230,7 +230,7 @@ class udapClient {
         }
         if (!udapWellKnownJson.hasOwnProperty("udap_certifications_required") ||
             ((udapWellKnownJson.udap_certifications_supported.length > 0) &&
-                (!udapWellKnownJson.hasOwnProperty("udap_certifications_required") || udapWellKnownJson.udap_certifications_required.length == 0))) {
+                (!udapWellKnownJson.hasOwnProperty("udap_certifications_required")))) {
             errorMessages.push("Missing or Invalid udap_certifications_required parameter")
         }
         if (!udapWellKnownJson.hasOwnProperty("grant_types_supported") || udapWellKnownJson.grant_types_supported.length == 0) {
